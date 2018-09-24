@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.managementplatform.mapper.ActivityMapper">
+  <resultMap id="BaseResultMap" type="team.managementplatform.pojo.Activity">
+    <id column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="activity_name" jdbcType="VARCHAR" property="activityName" />
+    <result column="venue_id" jdbcType="INTEGER" property="venueId" />
+    <result column="activity_type" jdbcType="VARCHAR" property="activityType" />
+    <result column="activity_time" jdbcType="VARCHAR" property="activityTime" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="deadline" jdbcType="TIMESTAMP" property="deadline" />
+    <result column="organizer" jdbcType="VARCHAR" property="organizer" />
+    <result column="activity_introduction" jdbcType="VARCHAR" property="activityIntroduction" />
+    <result column="phone" jdbcType="DECIMAL" property="phone" />
+    <result column="participants" jdbcType="VARCHAR" property="participants" />
+    <result column="participants_quantity" jdbcType="INTEGER" property="participantsQuantity" />
+    <result column="maximum" jdbcType="INTEGER" property="maximum" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="team.managementplatform.pojo.Activity">
+    <result column="poster" jdbcType="LONGVARBINARY" property="poster" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    activity_id, activity_name, venue_id, activity_type, activity_time, publish_time, 
+    deadline, organizer, activity_introduction, phone, participants, participants_quantity, 
+    maximum, location, status
+  </sql>
+  <sql id="Blob_Column_List">
+    poster
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="team.managementplatform.pojo.ActivityExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from activity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="team.managementplatform.pojo.ActivityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from activity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from activity
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from activity
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="team.managementplatform.pojo.ActivityExample">
+    delete from activity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="team.managementplatform.pojo.Activity">
+    insert into activity (activity_id, activity_name, venue_id, 
+      activity_type, activity_time, publish_time, 
+      deadline, organizer, activity_introduction, 
+      phone, participants, participants_quantity, 
+      maximum, location, status, 
+      poster)
+    values (#{activityId,jdbcType=INTEGER}, #{activityName,jdbcType=VARCHAR}, #{venueId,jdbcType=INTEGER}, 
+      #{activityType,jdbcType=VARCHAR}, #{activityTime,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, 
+      #{deadline,jdbcType=TIMESTAMP}, #{organizer,jdbcType=VARCHAR}, #{activityIntroduction,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=DECIMAL}, #{participants,jdbcType=VARCHAR}, #{participantsQuantity,jdbcType=INTEGER}, 
+      #{maximum,jdbcType=INTEGER}, #{location,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{poster,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="team.managementplatform.pojo.Activity">
+    insert into activity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="activityName != null">
+        activity_name,
+      </if>
+      <if test="venueId != null">
+        venue_id,
+      </if>
+      <if test="activityType != null">
+        activity_type,
+      </if>
+      <if test="activityTime != null">
+        activity_time,
+      </if>
+      <if test="publishTime != null">
+        publish_time,
+      </if>
+      <if test="deadline != null">
+        deadline,
+      </if>
+      <if test="organizer != null">
+        organizer,
+      </if>
+      <if test="activityIntroduction != null">
+        activity_introduction,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="participants != null">
+        participants,
+      </if>
+      <if test="participantsQuantity != null">
+        participants_quantity,
+      </if>
+      <if test="maximum != null">
+        maximum,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="poster != null">
+        poster,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="activityId != null">
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="activityName != null">
+        #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="venueId != null">
+        #{venueId,jdbcType=INTEGER},
+      </if>
+      <if test="activityType != null">
+        #{activityType,jdbcType=VARCHAR},
+      </if>
+      <if test="activityTime != null">
+        #{activityTime,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null">
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deadline != null">
+        #{deadline,jdbcType=TIMESTAMP},
+      </if>
+      <if test="organizer != null">
+        #{organizer,jdbcType=VARCHAR},
+      </if>
+      <if test="activityIntroduction != null">
+        #{activityIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=DECIMAL},
+      </if>
+      <if test="participants != null">
+        #{participants,jdbcType=VARCHAR},
+      </if>
+      <if test="participantsQuantity != null">
+        #{participantsQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="maximum != null">
+        #{maximum,jdbcType=INTEGER},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="poster != null">
+        #{poster,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="team.managementplatform.pojo.ActivityExample" resultType="java.lang.Long">
+    select count(*) from activity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update activity
+    <set>
+      <if test="record.activityId != null">
+        activity_id = #{record.activityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityName != null">
+        activity_name = #{record.activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.venueId != null">
+        venue_id = #{record.venueId,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityType != null">
+        activity_type = #{record.activityType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activityTime != null">
+        activity_time = #{record.activityTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishTime != null">
+        publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deadline != null">
+        deadline = #{record.deadline,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.organizer != null">
+        organizer = #{record.organizer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activityIntroduction != null">
+        activity_introduction = #{record.activityIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=DECIMAL},
+      </if>
+      <if test="record.participants != null">
+        participants = #{record.participants,jdbcType=VARCHAR},
+      </if>
+      <if test="record.participantsQuantity != null">
+        participants_quantity = #{record.participantsQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.maximum != null">
+        maximum = #{record.maximum,jdbcType=INTEGER},
+      </if>
+      <if test="record.location != null">
+        location = #{record.location,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poster != null">
+        poster = #{record.poster,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update activity
+    set activity_id = #{record.activityId,jdbcType=INTEGER},
+      activity_name = #{record.activityName,jdbcType=VARCHAR},
+      venue_id = #{record.venueId,jdbcType=INTEGER},
+      activity_type = #{record.activityType,jdbcType=VARCHAR},
+      activity_time = #{record.activityTime,jdbcType=VARCHAR},
+      publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      deadline = #{record.deadline,jdbcType=TIMESTAMP},
+      organizer = #{record.organizer,jdbcType=VARCHAR},
+      activity_introduction = #{record.activityIntroduction,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=DECIMAL},
+      participants = #{record.participants,jdbcType=VARCHAR},
+      participants_quantity = #{record.participantsQuantity,jdbcType=INTEGER},
+      maximum = #{record.maximum,jdbcType=INTEGER},
+      location = #{record.location,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      poster = #{record.poster,jdbcType=LONGVARBINARY}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update activity
+    set activity_id = #{record.activityId,jdbcType=INTEGER},
+      activity_name = #{record.activityName,jdbcType=VARCHAR},
+      venue_id = #{record.venueId,jdbcType=INTEGER},
+      activity_type = #{record.activityType,jdbcType=VARCHAR},
+      activity_time = #{record.activityTime,jdbcType=VARCHAR},
+      publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      deadline = #{record.deadline,jdbcType=TIMESTAMP},
+      organizer = #{record.organizer,jdbcType=VARCHAR},
+      activity_introduction = #{record.activityIntroduction,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=DECIMAL},
+      participants = #{record.participants,jdbcType=VARCHAR},
+      participants_quantity = #{record.participantsQuantity,jdbcType=INTEGER},
+      maximum = #{record.maximum,jdbcType=INTEGER},
+      location = #{record.location,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="team.managementplatform.pojo.Activity">
+    update activity
+    <set>
+      <if test="activityName != null">
+        activity_name = #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="venueId != null">
+        venue_id = #{venueId,jdbcType=INTEGER},
+      </if>
+      <if test="activityType != null">
+        activity_type = #{activityType,jdbcType=VARCHAR},
+      </if>
+      <if test="activityTime != null">
+        activity_time = #{activityTime,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null">
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deadline != null">
+        deadline = #{deadline,jdbcType=TIMESTAMP},
+      </if>
+      <if test="organizer != null">
+        organizer = #{organizer,jdbcType=VARCHAR},
+      </if>
+      <if test="activityIntroduction != null">
+        activity_introduction = #{activityIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=DECIMAL},
+      </if>
+      <if test="participants != null">
+        participants = #{participants,jdbcType=VARCHAR},
+      </if>
+      <if test="participantsQuantity != null">
+        participants_quantity = #{participantsQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="maximum != null">
+        maximum = #{maximum,jdbcType=INTEGER},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="poster != null">
+        poster = #{poster,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="team.managementplatform.pojo.Activity">
+    update activity
+    set activity_name = #{activityName,jdbcType=VARCHAR},
+      venue_id = #{venueId,jdbcType=INTEGER},
+      activity_type = #{activityType,jdbcType=VARCHAR},
+      activity_time = #{activityTime,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      deadline = #{deadline,jdbcType=TIMESTAMP},
+      organizer = #{organizer,jdbcType=VARCHAR},
+      activity_introduction = #{activityIntroduction,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=DECIMAL},
+      participants = #{participants,jdbcType=VARCHAR},
+      participants_quantity = #{participantsQuantity,jdbcType=INTEGER},
+      maximum = #{maximum,jdbcType=INTEGER},
+      location = #{location,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      poster = #{poster,jdbcType=LONGVARBINARY}
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.managementplatform.pojo.Activity">
+    update activity
+    set activity_name = #{activityName,jdbcType=VARCHAR},
+      venue_id = #{venueId,jdbcType=INTEGER},
+      activity_type = #{activityType,jdbcType=VARCHAR},
+      activity_time = #{activityTime,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      deadline = #{deadline,jdbcType=TIMESTAMP},
+      organizer = #{organizer,jdbcType=VARCHAR},
+      activity_introduction = #{activityIntroduction,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=DECIMAL},
+      participants = #{participants,jdbcType=VARCHAR},
+      participants_quantity = #{participantsQuantity,jdbcType=INTEGER},
+      maximum = #{maximum,jdbcType=INTEGER},
+      location = #{location,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </update>
+</mapper>

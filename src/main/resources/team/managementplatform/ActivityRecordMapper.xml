@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.managementplatform.mapper.ActivityRecordMapper">
+  <resultMap id="BaseResultMap" type="team.managementplatform.pojo.ActivityRecord">
+    <id column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="video_path" jdbcType="VARCHAR" property="videoPath" />
+    <result column="attendance" jdbcType="INTEGER" property="attendance" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    record_id, activity_id, time, video_path, attendance
+  </sql>
+  <select id="selectByExample" parameterType="team.managementplatform.pojo.ActivityRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from activity_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from activity_record
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from activity_record
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="team.managementplatform.pojo.ActivityRecordExample">
+    delete from activity_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="team.managementplatform.pojo.ActivityRecord">
+    insert into activity_record (record_id, activity_id, time, 
+      video_path, attendance)
+    values (#{recordId,jdbcType=INTEGER}, #{activityId,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
+      #{videoPath,jdbcType=VARCHAR}, #{attendance,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="team.managementplatform.pojo.ActivityRecord">
+    insert into activity_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="videoPath != null">
+        video_path,
+      </if>
+      <if test="attendance != null">
+        attendance,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null">
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="videoPath != null">
+        #{videoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="attendance != null">
+        #{attendance,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="team.managementplatform.pojo.ActivityRecordExample" resultType="java.lang.Long">
+    select count(*) from activity_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update activity_record
+    <set>
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityId != null">
+        activity_id = #{record.activityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.time != null">
+        time = #{record.time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.videoPath != null">
+        video_path = #{record.videoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attendance != null">
+        attendance = #{record.attendance,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update activity_record
+    set record_id = #{record.recordId,jdbcType=INTEGER},
+      activity_id = #{record.activityId,jdbcType=INTEGER},
+      time = #{record.time,jdbcType=TIMESTAMP},
+      video_path = #{record.videoPath,jdbcType=VARCHAR},
+      attendance = #{record.attendance,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="team.managementplatform.pojo.ActivityRecord">
+    update activity_record
+    <set>
+      <if test="activityId != null">
+        activity_id = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="videoPath != null">
+        video_path = #{videoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="attendance != null">
+        attendance = #{attendance,jdbcType=INTEGER},
+      </if>
+    </set>
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.managementplatform.pojo.ActivityRecord">
+    update activity_record
+    set activity_id = #{activityId,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP},
+      video_path = #{videoPath,jdbcType=VARCHAR},
+      attendance = #{attendance,jdbcType=INTEGER}
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+</mapper>
