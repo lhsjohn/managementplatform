@@ -96,7 +96,18 @@ public class UserController {
 	// 取消报名
 	@RequestMapping(value = "/update/activity/{activityId}", method = RequestMethod.DELETE)
 	public String deleteEnrollmentRecord(HttpSession session, @PathVariable Integer activityId) {
+		String result;
+		User user = (User) session.getAttribute("user");
+		Integer userId = user.getUserId();
+		EnrollmentRecordExample example = new EnrollmentRecordExample();
+		example.createCriteria().andUserIdEqualTo(userId).andActivityIdEqualTo(activityId);
+		if (enrollmentRecordService.deleteByExample(example) != 0) {
+			result = "1";
+		} else {
+			result = "2";
+		}
 
+		return result;
 	}
 
 }
